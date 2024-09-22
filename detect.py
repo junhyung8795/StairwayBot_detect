@@ -283,8 +283,6 @@ def run(
                         data = {"distance": float(vertical_distance), "degree": float(theta_degrees)}
 
                         # JSON 데이터를 서버로 전송 
-                      
-                        data = {"distance": float(vertical_distance), "degree": float(theta_degrees)}
 
                         response = requests.post('http://192.168.45.238:5000/detections', json=data)
 
