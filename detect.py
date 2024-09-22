@@ -84,7 +84,7 @@ def calculate_slope(pt1, pt2):
 
 def run(
     weights= ROOT / "close_stairs.pt",  #계단을 근접촬영하여 만든 pt파일
-    source="http://192.168.45.238:5000/video_feed",  # 라즈베리파이 서버애서 올라오는 영상프레임
+    source="ipAddress/video_feed",  # 라즈베리파이 서버애서 올라오는 영상프레임
     data=ROOT / "data/coco128.yaml",  # dataset.yaml path
     imgsz=(640, 640),  # inference size (height, width)
     conf_thres=0.25,  # confidence threshold
@@ -284,7 +284,7 @@ def run(
 
                         # JSON 데이터를 서버로 전송 
 
-                        response = requests.post('http://192.168.45.238:5000/detections', json=data)
+                        response = requests.post('ipAddress:5000/detections', json=data)
 
                         
 
