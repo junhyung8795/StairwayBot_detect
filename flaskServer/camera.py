@@ -4,8 +4,15 @@ from picamera2 import Picamera2
 import cv2
 import serial
 import json
+import os
+from dotenv import load_dotenv
+
 app = Flask(__name__)
-arduino = serial.Serial('/dev/ttyACM0', 9600)
+
+load_dotenv(verbose=True)
+ARDUINO_PORT = os.getenv("ARDUINO_PORT")
+
+arduino = serial.Serial(ARDUINO_PORT, 9600)
 picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
 picam2.start()
