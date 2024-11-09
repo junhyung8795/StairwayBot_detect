@@ -37,12 +37,17 @@ from pathlib import Path
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-from multiprocessing import Queue
 import torch
 import serial  
 import json
 import time
 import requests
+from dotenv import load_dotenv
+
+load_dotenv(verbose=True)
+
+IP_ADDRESS = os.getenv('IP_ADDRESS')
+
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -84,7 +89,7 @@ def calculate_slope(pt1, pt2):
 
 def run(
     weights= ROOT / "close_stairs.pt",  #계단을 근접촬영하여 만든 pt파일
-    source="ipAddress/video_feed",  # 라즈베리파이 서버애서 올라오는 영상프레임
+    source=f"{IP_ADDRESS}/video_feed",  # 라즈베리파이 서버애서 올라오는 영상프레임
     data=ROOT / "data/coco128.yaml",  # dataset.yaml path
     imgsz=(640, 640),  # inference size (height, width)
     conf_thres=0.25,  # confidence threshold
@@ -284,7 +289,7 @@ def run(
 
                         # JSON 데이터를 서버로 전송 
 
-                        response = requests.post('ipAddress:5000/detections', json=data)
+                        response = requests.post(f'{IP_ADDRESS}/detections', json=data)
 
                         
 
