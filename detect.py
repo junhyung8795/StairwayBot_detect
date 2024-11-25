@@ -246,14 +246,13 @@ def run(
                         c = int(cls)  # integer class
                         label = None if hide_labels else (names[c] if hide_conf else f"{names[c]} {conf:.2f}")
                         annotator.box_label(xyxy, label, color=colors(c, True))
-                        bounding_box_center_base = xyxy[3]
-                        bounding_box_center_x = int((xyxy[0] + xyxy[2]) / 2)
-                        bounding_box_length_y = xyxy[3] - xyxy[1]
-                        gap_y = int(bounding_box_length_y / 4)
-                        ROI = imc[int(xyxy[1] + gap_y * 2) :int(xyxy[3] - gap_y), int(xyxy[0]):int(xyxy[2])]
+                        bounding_box_length_x = xyxy[2] - xyxy[0]
+                        center_x = (xyxy[2] + xyxy[0]) // 2
+                        gap_x = int(bounding_box_length_x / 4)
+                        ROI = imc[int(xyxy[1]) :int(xyxy[3]), int(xyxy[0] + gap_x):int(xyxy[2] - gap_x)]
                         gray_img = cv2.cvtColor(ROI, cv2.COLOR_BGR2GRAY)
                         canny_img = cv2.Canny(gray_img, 100, 300, apertureSize = 3, L2gradient = True)
-                        lines = cv2.HoughLinesP(canny_img, 1, np.pi/180, 180, minLineLength = 100, maxLineGap = 10)
+                        lines = cv2.HoughLinesP(canny_img, 1, np.pi/180, 100, minLineLength = gap_x, maxLineGap = 10)
                         hough_img = cv2.cvtColor(canny_img, cv2.COLOR_GRAY2BGR)
                         
                         if lines is not None:
@@ -265,37 +264,28 @@ def run(
                                 if x2 - x1 != 0:
                                     slope = (y2 - y1) / (x2 - x1) * (-1)
                                     print("Slope of the last line:", slope)
-                                    theta_radians = math.atan(slope)
-                                    theta_degrees = math.degrees(theta_radians)
-                                    print("Angle in radians:", theta_radians)
-                                    print("Angle in degrees:", theta_degrees)
                                     cv2.line(hough_img, (x1, y1), (x2, y2), (0, 0, 255), 2, cv2.LINE_AA)
                                     break
+                            cv2.putText(im0, "degree:{}".format(str(theta_degrees)), (im0.shape[1] - 500,im0.shape[0] - 100),  cv2.FONT_ITALIC, 2.0, (255, 0, 0), 3)
+
                     
                         #  Print width pixel count
-                        y_pixel = (im_height - bounding_box_center_base)
-                        x_pixel = abs(int((im_width / 2) - bounding_box_center_x))
-                        result_radians = math.atan(y_pixel / x_pixel)
-                        result_degrees = math.degrees(result_radians)
-                        print("역탄젠트 (도):", result_degrees)
-                        sin_value = math.sin(result_radians)
-                        vertical_distance = y_pixel * (y_pixel * 0.000085)
-
-                        print(vertical_distance)
-                        cv2.putText(im0, "distance:{}cm".format(str(vertical_distance)), (im0.shape[1] - 700,im0.shape[0] - 150),  cv2.FONT_ITALIC, 1.2, (255, 0, 0), 2)
+                        y_pixel = xyxy[1]
+                        vertical_distance = (y_pixel // 4) + 10
+                        print(f"y_pixel and vertical_distance is {y_pixel}")
+                        cv2.putText(im0, "distance:{}cm".format(str(vertical_distance)), (im0.shape[1] - 500,im0.shape[0] - 150),  cv2.FONT_ITALIC, 1.2, (255, 0, 0), 2)
                         
                         # JSON 데이터 생성
-                        data = {"distance": float(vertical_distance), "degree": float(theta_degrees)}
-
+                        data = {"distance": float(vertical_distance), "degree": float(theta_degrees), "detect": bool(len(det)), "center_x" : int(center_x)}
                         # JSON 데이터를 서버로 전송 
-
-                        response = requests.post(f'{IP_ADDRESS}/detections', json=data)
-
+                        requests.post(f'{IP_ADDRESS}/detections', json=data)
                         
 
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / "crops" / names[c] / f"{p.stem}.jpg", BGR=True)
-            cv2.putText(im0, "degree:{}".format(str(theta_degrees)), (im0.shape[1] - 500,im0.shape[0] - 100),  cv2.FONT_ITALIC, 2.0, (255, 0, 0), 3)
+            else:
+                data = {"distance": None, "degree": None, "detect": False, "center_x" : None}
+                requests.post(f'{IP_ADDRESS}/detections', json=data)
             
             im0 = annotator.result()
             if view_img:
