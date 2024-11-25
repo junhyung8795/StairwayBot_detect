@@ -36,7 +36,7 @@ def video_feed():
 @app.route('/detections', methods=['POST'])
 def detections():
     data = request.json
-    arduino.write(json.dumps(data).encode())
+    arduino.write(json.dumps(data).encode('utf-8'))
     return 'OK'
 
 if __name__ == '__main__':
