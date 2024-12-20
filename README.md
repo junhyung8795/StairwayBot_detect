@@ -28,6 +28,7 @@
 
 ## 시연 영상
 객체 감지 데이터 송수신 시연 영상: https://youtu.be/OJPKubmBZKU
+
 객체 감지 영상처리 시연 영상: https://youtu.be/ss0D5uS3Y8o
 
 ## 상세 내용
