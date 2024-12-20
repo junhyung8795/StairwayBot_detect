@@ -26,7 +26,8 @@
 7. 객체 감지 서버(yolov5의 detect.py) 실행 예시(실행 위치 StairwayBot_detect/): `python3 yolov5/detect.py --weights yolov5/weightFile/blackWoodStair_autoContrast_50.pt  --img 416 --conf 0.8 --source http://192.168.xxx.xxx:5000/video_feed`
 
 ## 시연 영상
-[시연 영상 링크](https://youtube.com)
+객체 감지 데이터 송수신 시연 영상: https://youtu.be/OJPKubmBZKU
+객체 감지 영상처리 시연 영상: https://youtu.be/ss0D5uS3Y8o
 
 ## 상세 내용
 더 자세한 프로젝트 설명은 [노션 링크](https://www.notion.so/13de84ee7a74802abb67dba4bf2e3be8?pvs=12)에서 확인할 수 있습니다.
