@@ -32,4 +32,4 @@
 객체 감지 영상처리 시연 영상: https://youtu.be/ss0D5uS3Y8o
 
 ## 상세 내용
-더 자세한 프로젝트 설명은 [노션 링크](https://www.notion.so/13de84ee7a74802abb67dba4bf2e3be8?pvs=12)에서 확인할 수 있습니다.
+더 자세한 프로젝트 설명은 [노션 링크](https://vintage-orbit-bf6.notion.site/13de84ee7a74802abb67dba4bf2e3be8)에서 확인할 수 있습니다.
