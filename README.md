@@ -24,7 +24,7 @@
 4. arduinoTestCode는 아두이노에 다운로드 후 ArduinoJson 헤더 파일 다운로드(아두이노 하드웨어는 UNO가 아닌 Mega를 사용하는 것을 추천합니다. UNO도 테스트 코드는 실행 가능하지만 바퀴 모터나 여러 로직이 섞일 경우 Mega가 효율적입니다.)
 5. flaskServer 폴더의 camera.py = 라즈베리 파이에 다운로드 후 Flask 서버 실행: `python3 camera.py`
 6. 아두이노 IDE에서 arduinoTestCode 실행 후 시리얼 모니터 실행
-7. 객체 감지 서버(yolov5의 detect.py) 실행 예시(실행 위치 StairwayBot_detect/): `python3 yolov5/detect.py --weights yolov5/weightFile/blackWoodStair_autoContrast_50.pt  --img 416 --conf 0.8 --source http://192.168.xxx.xxx:5000/video_feed`
+7. 객체 감지 서버(yolov5의 detect.py) 실행 예시(실행 위치 StairwayBot_detect/): `python3 yolov5/detect.py --weights weightFile/blackWoodStair_autoContrast_50.pt  --img 416 --conf 0.8 --source http://192.168.xxx.xxx:5000/video_feed` (주의: weightFile/blackWoodStair_autoContrast_50.pt은 압축된 상태이므로 압축을 푸신 후 사용해야 합니다.)
 
 ## 시연 영상
 객체 감지 데이터 송수신 시연 영상: https://youtu.be/OJPKubmBZKU
